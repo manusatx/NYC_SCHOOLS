@@ -27,7 +27,7 @@ knitr::knit_hooks$set(document = hook4)
 SchoolMain <- read.csv("https://raw.githubusercontent.com/manusatx/NYC_SCHOOLS/master/SchoolMain.csv")
 dim(SchoolMain)
 #data exploration for predictors
-#Remove ID and name and other Identificable varaibles by looking at the data
+#Remove ID and name and other Identificable varaibles by looking at the data - 27 variables removed
 SchoolMain <- subset(SchoolMain, select=-c(X, District, New.,Adjusted.Grade, GEOID, Other.Location.Code.in.LCGMS,SchoolGEOID, School.Name,SED.Code,Location.Code,Latitude,Longitude,Address..Full.,City,Zip,Grades,Grade.Low,Grade.High, Rigorous.Instruction.Rating,Collaborative.Teachers.Rating,Supportive.Environment.Rating,Effective.School.Leadership.Rating,Strong.Family.Community.Ties.Rating,Trust.Rating,Student.Achievement.Rating))
 dim(SchoolMain)
 #Convert community to 1 / 0 vs Yes No
@@ -47,8 +47,19 @@ SchoolMain <- subset(SchoolMain, select=-c(Average.ELA.Proficiency, Average.Math
 summary(SchoolMain)
 
 # check only for response variable Yield 
-SchoolMain[is.na(SchoolMain$Average_Proficiency),]
+nrow(SchoolMain[is.na(SchoolMain$Average_Proficiency),])
 print('There are 55 rows with some missing data')
+
+#Check Distribution of response variable
+library(AppliedPredictiveModeling)
+library(lattice)
+transparentTheme(pchSize = 1, trans = .7)
+mean.values=mean(SchoolMain$Average_Proficiency)
+histogram(~Average_Proficiency, data = SchoolMain, xlab = "Average_Proficiency", 
+          panel = function(x,...) {
+            panel.histogram(x, ...) 
+            panel.abline(v=mean.values, col.line="red", identifier = "abline" ,lty = 4)
+            })
 
 #Remove 55 rows from data where response variable is NULL
 SchoolMain_NA_Resp <- SchoolMain[is.na(SchoolMain$Average_Proficiency),]
@@ -63,8 +74,7 @@ print('There are 394 rows with some missing data')
 ```{r}
 #Use Knn imputation to preprocess the data
 library(caret)
-SchoolMain_prepro_index <- preProcess(subset(SchoolMain, select = - Average_Proficiency), 
-                                #method=c("BoxCox", "center", "scale", "knnImpute"))
+SchoolMain_prepro_index <- preProcess(subset(SchoolMain, select = -Average_Proficiency), 
                                 method=c("BoxCox", "knnImpute"))
 SchoolMain_new <- predict(SchoolMain_prepro_index, SchoolMain)
 
@@ -200,6 +210,7 @@ corrplot::corrplot(SchoolMain_subset_corr, order = "hclust", addrect = 4, method
 #Create a data set with reduced predictor variables with 
 SchoolMain_reduced <- cbind(SchoolMain_reduced_numeric,SchoolMain_fctr_resp)
 dim(SchoolMain_reduced)
+
 ```
 
 

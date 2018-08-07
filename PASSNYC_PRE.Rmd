@@ -221,7 +221,7 @@ Manhattan_hcov <- get_acs(geography = "tract", variables = "C27016_001",
 state = "NY", county = "New york", geometry = TRUE)
 Bronx_hcov <- get_acs(geography = "tract", variables = "C27016_001",
 state = "NY", county = "Bronx", geometry = TRUE)
-Queens_hcov <- get_acs(geography = "tract", variables = "C27016_004",
+Queens_hcov <- get_acs(geography = "tract", variables = "C27016_001",
 state = "NY", county = "Queens", geometry = TRUE)
 Brooklyn_hcov <- get_acs(geography = "tract", variables = "C27016_001",
 state = "NY", county = "Kings", geometry = TRUE)
