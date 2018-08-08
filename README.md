@@ -18,17 +18,37 @@ Census Tract Data (geoID) - Uses tidycensus and censusr package
     Median HH Income
     Ratio of Income to Poverty
     Child Poverty (under 18 Yrs old)
-    # of HH with Food stamps
-    # of  HH with Health Coverage
+    Num of HH with Food stamps
+    Num of HH with Health Coverage
 
 ## Data Cleaning and Preprocessing
-
     Reduced 55 missing response variable rows. (Final number of observations –  1,217)
     Imputed with KNN for missing NA’s (394 of 1,272) or 31%
     Box-Cox transformation applied.
-    No degenerate variables  found (near zero var)
+    No degenerate variables found (near zero var)
     PCA 90% variance explained by 10 of 19 components
-    Checked & removed highly correlated predictor variables
-    Evaluated and reduced predictors using Variable Clustering as a second approach
+    Checked & removed highly correlated predictor variables (cutoff 0.8)
+    Evaluated and reduced predictors using Variable Clustering as a second approach using lowest rsq ratio.
+
+## Model Tuning
+    Achieved a 85 training/15 test split on main dataset. 
+    Used repeated 10-fold cross validation to tune multiple models.
+    Best results were from ranfom forest but it was overfitting.
+    We selected best model as lm and pls due to simplicity and interpretability.
+    Selected PLS Model - Prediction performance good @ 79.0% R² / 0.188 RMSE
+    
+## Conclusion
+Feature Engineered variables  impacted model prediction (good insight such as number of subsidized housing)
+Simple linear models did well compared to unsupervised ones.
+Further research and refinement needed:
+     Consider predictor variables that impact the total educational pipeline
+     Portable model  -  Can be applied to other school districts/geographies
+     Assess impact of controllable variables impacting educational success
+
+
+    
+     
+    
     
  
+
