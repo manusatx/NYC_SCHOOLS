@@ -1,7 +1,16 @@
+
 # NYC_SCHOOLS
+
+## Introduction
+This project is a based on a collaboration between Manoranjan Kumar (me) /Gary Sepulveda as
+part of a final project in the University of Texas @ San Antonio Master of Science Data Analytics
+program. We chose a current (as of 8/7/18) Kaggle challenge (PASSNYC) as our topic. This basically is a
+challenge in the NYC school district to ultimately help underserved student achieve academic success by
+taking and being accepted into some the best specialized High School in the city.
+
 ## Problem Description -
 Black & Latino Students are significantly underrepresented in NYC Specialized High Schools. 
-We took the PASSNYC dataset from Kaggle and attempted to build a model predicting Average Proficiency.
+We took the PASSNYC dataset from Kaggle and attempted to build a model predicting Average Proficiency of maths and english.
 Our aim is to predict and rank the schools based on multiple feature engineered columns using open data.
 
 ## Data Sources
@@ -44,11 +53,3 @@ Further research and refinement needed:
      Consider predictor variables that impact the total educational pipeline
      Portable model  -  Can be applied to other school districts/geographies
      Assess impact of controllable variables impacting educational success
-
-
-    
-     
-    
-    
- 
-
