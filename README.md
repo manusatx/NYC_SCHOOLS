@@ -8,6 +8,20 @@ program. We chose a current (as of 8/7/18) Kaggle challenge (PASSNYC) as our top
 challenge in the NYC school district to ultimately help underserved student achieve academic success by
 taking and being accepted into some the best specialized High School in the city.
 
+## Files in NYC_SCHOOLS Repository:
+### 2016 School Explorer_Reduced.csv - 	Data from PASSNYC Kaggle challenge
+### 2016 School Explorer_new.csv  -	Reduced Data from PASSNYC Kaggle challenge
+### Affordable_Housing.csv - Open data NYC
+### D5 SHSAT Registrations and Testers.csv -	Data from PASSNYC Kaggle challenge
+### DOITT_AFTER_SCHOOL_PROGRAM_01_29JUL2009.csv -	Open data NYC
+### LIBRARY.csv - Open data NYC
+### PASSNYC.Rmd	Main - PASSNYC.Rmd file which uses SchoolMain.csv (output of PASSNYC_PRE.Rmd)
+### PASSNYC.docx - PASSNYC.Rmd output
+### PASSNYC_PRE.Rmd - source data and feature enegineering using open data NYC and census data
+### README.md - Readme file
+### SchoolMain.csv - Output of source data and feature enegineering (PASSNYC_PRE.Rmd)
+### Team8_Final_Project.pptm - Presentation
+
 ## Problem Description
 Black & Latino Students are significantly underrepresented in NYC Specialized High Schools. 
 We took the PASSNYC dataset from Kaggle and attempted to build a model predicting Average Proficiency of maths and english.
