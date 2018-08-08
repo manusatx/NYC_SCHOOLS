@@ -78,6 +78,17 @@ SchoolMain_prepro_index <- preProcess(subset(SchoolMain, select = -Average_Profi
                                 method=c("BoxCox", "knnImpute"))
 SchoolMain_new <- predict(SchoolMain_prepro_index, SchoolMain)
 
+#Check Distribution of response variable
+library(AppliedPredictiveModeling)
+library(lattice)
+transparentTheme(pchSize = 1, trans = .7)
+mean.values=mean(SchoolMain_new$Average_Proficiency)
+histogram(~Average_Proficiency, data = SchoolMain_new, xlab = "Average_Proficiency", 
+          panel = function(x,...) {
+            panel.histogram(x, ...) 
+            panel.abline(v=mean.values, col.line="red", identifier = "abline" ,lty = 4)
+            })
+
 #see predictors data with missing values after imputation
 nrow(SchoolMain_new[rowSums(is.na(subset(SchoolMain_new, select = - Average_Proficiency))) > 0,])
 print('There are 0 rows with some missing data after knn imputation')
@@ -259,7 +270,7 @@ pls_school_model = train(Average_Proficiency ~., data = trainschool,method="pls"
                          tuneLength = 10,
                    preProcess=c("center","scale"), 
                    trControl=trainControl(method="repeatedcv", number = 10) )
-#summary(pls_school_model)
+summary(pls_school_model)
 #head(pls_school_model$results)
 
 plot(pls_school_model,metric="Rsquared")
@@ -291,7 +302,7 @@ pcr_school_model = train( Average_Proficiency ~., data = trainschool,method="pcr
                    preProcess=c("center","scale"), 
                    trControl=trainControl(method="repeatedcv", number = 10) )
 summary(pcr_school_model)
-head(pcr_school_model$results)
+#head(pcr_school_model$results)
 
 plot(pcr_school_model,metric="Rsquared")
 
@@ -317,12 +328,15 @@ featurePlot(trainschool[, top_pcr_vars],
 ```{r}
 #Run the SVM model
 set.seed(1000)
+#svm.grid <- expand.grid(C = c(0,0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2,5))
 svm_school_model = train( Average_Proficiency ~., data = trainschool,method="svmLinear",
-                          tuneLength = 10,
+                          tuneLength = 10, 
+                          #tuneGrid = svm.grid,
                    trControl=trainControl(method="repeatedcv", number = 10),
                   preProc = c("center", "scale"))
-#summary(svm_school_model)
+summary(svm_school_model)
 head(svm_school_model$results)
+
 ```
 
 ```{r}
@@ -364,7 +378,7 @@ library(elasticnet)
 enet_school_model <- train(Average_Proficiency ~., data = trainschool, method = "enet", 
                     trControl = trainControl(method = "repeatedcv", repeats = 10), 
                     preProc = c("center", "scale"), tuneLength = 5) 
-#summary(enet_school_model)
+summary(enet_school_model)
 plot(enet_school_model,metric="Rsquared")
 ```
 
@@ -468,10 +482,10 @@ library(pls)
 pls_school_reduced_imp <- varImp(pls_school_reduced_model, scale = FALSE)
 plot(pls_school_reduced_imp, top=15, scales = list(y = list(cex = 0.8)))
 reduced_school_order_pls_index <- order(abs(pls_school_reduced_imp$importance),decreasing=TRUE)
-reduced_top_pls_vars = rownames(pls_school_reduced_imp$importance)[reduced_school_order_pls_index[c(1:5)]]
+reduced_top_pls_vars = rownames(pls_school_reduced_imp$importance)[reduced_school_order_pls_index[c(1:3)]]
 reduced_top_pls_vars
 
-#Explore the univariate relationships of top 5 variables with Yield using featureplot
+#Explore the univariate relationships of top 3 variables with Yield using featureplot
 featurePlot(trainreducedschool[, reduced_top_pls_vars],
             trainreducedschool$Average_Proficiency,
             plot = "scatter",
